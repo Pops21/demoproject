@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UE5 Widget Generator — HTML to UMG</title>
+  <meta name="description" content="Convert HTML designs to Unreal Engine 5.1 UMG Widget Blueprint clipboard format">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <div class="logo-icon">W</div>
+        <h1>Widget Generator</h1>
+        <span class="badge">UE5</span>
+      </div>
+      <div class="header-controls">
+        <div class="settings-toolbar">
+          <div class="settings-grid">
+            <label class="setting-card" title="Bake box-shadow / text-shadow effects into textures when possible. Disable if you want a lighter export.">
+              <span class="setting-card-top">
+                <input type="checkbox" id="renderShadowsChk" checked>
+                <span class="setting-card-title">Shadows</span>
+              </span>
+              <span class="setting-card-desc">Bake shadow effects into the exported UI.</span>
+            </label>
+            <label class="setting-card" title="Bake CSS gradient backgrounds into textures so they carry over into Unreal.">
+              <span class="setting-card-top">
+                <input type="checkbox" id="renderGradientsChk" checked>
+                <span class="setting-card-title">Gradients</span>
+              </span>
+              <span class="setting-card-desc">Keep gradient fills and layered backgrounds.</span>
+            </label>
+            <label class="setting-card" title="Bake icon-font glyphs (FontAwesome, Material Icons, …) into PNG textures so they render even when the icon font is not imported into Unreal. Plain emoji codepoints are always baked regardless of this toggle since UE's runtime font cannot render them.">
+              <span class="setting-card-top">
+                <input type="checkbox" id="renderFontIconsChk" checked>
+                <span class="setting-card-title">Icons</span>
+              </span>
+              <span class="setting-card-desc">Convert font-based icons into texture assets.</span>
+            </label>
+            <label class="setting-card" title="Export CSS @keyframes animations as per-widget animations[] entries in the JSON (transform / opacity / color tracks). Plugin-side: each entry becomes one UWidgetAnimation. Disable to skip animation extraction entirely (smaller JSON, no UWidgetAnimation assets).">
+              <span class="setting-card-top">
+                <input type="checkbox" id="renderAnimationsChk" checked>
+                <span class="setting-card-title">Animations</span>
+              </span>
+              <span class="setting-card-desc">Include supported CSS keyframe animations.</span>
+            </label>
+            <label class="setting-card" title="Enable lightweight debug logs during convert. Leave off for normal use.">
+              <span class="setting-card-top">
+                <input type="checkbox" id="enableLogsChk">
+                <span class="setting-card-title">Logs</span>
+              </span>
+              <span class="setting-card-desc">Show conversion progress and debug output.</span>
+            </label>
+          </div>
+          <div class="resolution-group">
+            <label class="resolution-label" title="Layout viewport in CSS pixels — same as window.innerWidth × innerHeight reported at 100% browser zoom. This is what CSS media queries see. NOT visual / on-screen pixels at a non-100% zoom level.">Resolution</label>
+            <select id="resolutionSelect">
+              <option value="1920x1080" selected>1920 × 1080</option>
+              <option value="1280x720">1280 × 720</option>
+              <option value="2560x1440">2560 × 1440</option>
+              <option value="3840x2160">3840 × 2160</option>
+              <option value="custom">Custom</option>
+            </select>
+            <div class="custom-res" id="customRes">
+              <input type="number" id="customWidth" value="1920" min="100" max="7680" placeholder="W" title="Layout viewport WIDTH in CSS pixels. Browser zoom doesn't change this — when you zoom out to 50% in your browser the page is rendered at 2× viewport, NOT half. Enter the size you'd see at 100% zoom.">
+              <span>×</span>
+              <input type="number" id="customHeight" value="1080" min="100" max="4320" placeholder="H" title="Layout viewport HEIGHT in CSS pixels.">
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-content">
+      <!-- Left Panel: HTML Input -->
+      <div class="panel panel-left" id="panelLeft">
+        <div class="panel-header">
+          <h2>HTML Input</h2>
+          <div class="btn-group">
+            <button class="btn" id="openFileBtn" title="Open local HTML file">File</button>
+            <button class="btn" id="loadExampleBtn" title="Load example HTML">
+              ✦ Example
+            </button>
+            <button class="btn" id="clearBtn" title="Clear input">
+              ✕ Clear
+            </button>
+            <button class="btn" id="collapseCodeBtn" title="Collapse / expand the HTML code area to free up screen space for the preview / output panels. Auto-collapses after a successful conversion.">
+              <span class="collapse-icon">▾</span>
+              <span class="collapse-label">Collapse</span>
+            </button>
+          </div>
+        </div>
+        <div class="source-bar">
+          <input type="text" id="urlInput" class="source-input" placeholder="Optional: paste local file path like file:///C:/project/index.html to help resolve relative assets">
+        </div>
+        <input type="file" id="htmlFileInput" accept=".html,.htm,text/html" hidden>
+        <input type="file" id="assetFolderInput" webkitdirectory directory multiple hidden>
+        <div class="panel-body" style="position:relative;">
+          <textarea id="htmlInput" class="code-area" placeholder="Paste your HTML code here..." spellcheck="false"></textarea>
+          <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-stack">
+              <div class="spinner"></div>
+              <div class="loading-elapsed" id="loadingElapsed" aria-live="polite">0.0s</div>
+            </div>
+          </div>
+        </div>
+        <!-- Preview -->
+        <div class="preview-section" id="previewSection">
+          <div class="preview-header">
+            <h3 id="previewToggle" style="cursor:pointer;flex:1;">Live Preview <span class="toggle">▼</span></h3>
+            <button class="btn preview-fullscreen-btn" id="previewFullscreenBtn" title="Open the live preview in a fullscreen overlay (Esc to close).">⛶ Fullscreen</button>
+          </div>
+          <iframe id="previewFrame" class="preview-frame"></iframe>
+        </div>
+        <!-- Generate Bar -->
+        <div class="generate-bar" id="generateBar">
+          <button class="btn btn-primary" id="generateBtn">⚡ Generate Widget</button>
+          <div class="analysis-summary" id="analysisSummary"></div>
+          <div class="generate-btn-hint" id="generateBtnHint" aria-live="polite">Changes pending — click Generate to apply</div>
+        </div>
+        <div class="font-summary" id="fontSummary" style="display:none;">
+          <div class="font-summary-title">Used Fonts</div>
+          <div class="font-list" id="fontList"></div>
+        </div>
+      </div>
+
+      <!-- Right Panel: UE Output -->
+      <div class="panel panel-right">
+        <div class="panel-header">
+          <h2>UE Widget Output</h2>
+          <div class="btn-group">
+            <button class="btn" id="downloadJsonBtn" disabled>JSON</button>
+            <button class="btn" id="copyBtn" disabled>📋 Copy</button>
+            <button class="btn" id="downloadBtn" disabled>💾 Download</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <textarea id="ueOutput" class="code-area" readonly placeholder="Generated UE5 UMG Widget code will appear here...&#10;&#10;Click 'Generate Widget' after pasting your HTML."></textarea>
+        </div>
+        <!-- Texture Panel -->
+        <div class="texture-panel" id="texturePanel" style="display:none;">
+          <div class="texture-panel-header">
+            <h3>📦 Textures & Images <span id="textureTotalSize" style="font-size:10px;color:var(--text-tertiary);margin-left:6px;"></span></h3>
+            <div class="btn-group">
+              <span class="btn" id="downloadAllTexturesBtn" style="font-size:11px;">⬇ Textures ZIP</span>
+              <span class="btn" id="downloadJsonPackageBtn" style="font-size:11px;">📦 JSON Package</span>
+            </div>
+          </div>
+          <div id="textureList"></div>
+        </div>
+        <div class="debug-panel logs-disabled" id="debugPanel">
+          <div class="debug-panel-header">
+            <h3>Debug Log</h3>
+            <button class="btn debug-toggle-btn" id="debugCollapseBtn" type="button">Collapse</button>
+          </div>
+          <pre class="debug-log" id="debugLog">Logs disabled.</pre>
+        </div>
+      </div>
+    </main>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-dot ready" id="statusDot"></div>
+      <span class="status-text" id="statusText">Ready</span>
+    </div>
+  </div>
+
+  <!-- Hidden iframe for rendering -->
+  <iframe id="renderFrame"></iframe>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
