@@ -3,345 +3,501 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Widget Generator — User Guide</title>
+<title>Widget Generator - User Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     color-scheme: dark;
-    --bg: #0a0a0a;
-    --surface: #131313;
-    --surface-2: #1c1c1c;
-    --border: #262626;
-    --border-strong: #383838;
-    --text: #f5f5f4;
-    --text-muted: #a8a29e;
-    --text-soft: #78716c;
-    --accent: #818cf8;
-    --accent-soft: rgba(129, 140, 248, 0.10);
-    --accent-strong: #a5b4fc;
-    --code-bg: #0f0f0f;
-    --code-text: #e7e5e4;
-    --shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 2px 8px rgba(0,0,0,0.35);
+    --bg: #0b0d12;
+    --bg-2: #10141d;
+    --surface: #141925;
+    --surface-2: #1a2030;
+    --surface-3: #1f2740;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --text: #f4f7fb;
+    --text-muted: rgba(244,247,251,0.72);
+    --text-soft: rgba(244,247,251,0.48);
+    --accent: #7c6cf0;
+    --accent-2: #9a8df8;
+    --accent-soft: rgba(124,108,240,0.12);
+    --success: #34d399;
+    --warning: #fbbf24;
+    --shadow: 0 18px 50px rgba(0,0,0,0.32);
   }
+
   * { box-sizing: border-box; }
+
   html, body {
     margin: 0;
     padding: 0;
-    background: var(--bg);
+    background:
+      radial-gradient(circle at top, rgba(124,108,240,0.12), transparent 32%),
+      linear-gradient(180deg, #0a0c11 0%, #0d1017 100%);
     color: var(--text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 16px;
+    font-family: "Inter", system-ui, sans-serif;
     line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
+
+  body {
+    min-height: 100vh;
+  }
+
   .wrap {
-    max-width: 860px;
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 64px 32px 96px;
+    padding: 56px 28px 96px;
   }
-  /* Hero */
+
+  .announcement {
+    margin-bottom: 28px;
+    padding: 18px 20px;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 18px;
+    background:
+      linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(245, 158, 11, 0.04)),
+      var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .announcement-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .announcement h2 {
+    margin-bottom: 12px;
+    font-size: 22px;
+    gap: 0;
+  }
+
+  .announcement h2 .num {
+    display: none;
+  }
+
+  .announcement p {
+    margin-bottom: 12px;
+  }
+
+  .announcement ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+  }
+
+  .announcement li + li {
+    margin-top: 10px;
+  }
+
+  .announcement code {
+    word-break: break-all;
+  }
+
   .hero {
-    margin-bottom: 64px;
-    padding-bottom: 48px;
+    padding: 28px 0 40px;
+    margin-bottom: 34px;
     border-bottom: 1px solid var(--border);
   }
+
   .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 6px 12px;
-    background: var(--accent-soft);
-    color: var(--accent-strong);
     border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-2);
     font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 20px;
   }
-  .eyebrow .dot {
+
+  .eyebrow::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(124,108,240,0.7);
+  }
+
+  h1 {
+    margin: 18px 0 14px;
+    font-size: clamp(38px, 7vw, 62px);
+    line-height: 1.03;
+    letter-spacing: -0.04em;
+  }
+
+  .lede {
+    max-width: 760px;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 19px;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(20,25,37,0.72);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  }
+
+  .links a:hover {
+    transform: translateY(-1px);
+    border-color: rgba(124,108,240,0.45);
+    background: rgba(28,35,51,0.88);
+  }
+
+  .links svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .tag {
+    padding-left: 8px;
+    margin-left: 2px;
+    border-left: 1px solid var(--border-strong);
+    color: var(--text-soft);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  section {
+    margin: 52px 0;
+  }
+
+  h2 {
+    margin: 0 0 16px;
+    font-size: 29px;
+    line-height: 1.18;
+    letter-spacing: -0.03em;
+  }
+
+  h3 {
+    margin: 24px 0 10px;
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  p {
+    margin: 0 0 12px;
+    color: var(--text-muted);
+  }
+
+  strong {
+    color: var(--text);
+  }
+
+  .section-intro {
+    max-width: 800px;
+  }
+
+  .grid-2,
+  .grid-3 {
+    display: grid;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .card,
+  .prompt-card,
+  .gallery-card,
+  .callout,
+  .step {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(23,28,40,0.96), rgba(17,21,31,0.96));
+    box-shadow: var(--shadow);
+  }
+
+  .card {
+    padding: 18px 18px 16px;
+  }
+
+  .card p {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .steps {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    padding: 18px 18px 18px 16px;
+  }
+
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .step p:last-child,
+  .card p:last-child,
+  .callout p:last-child {
+    margin-bottom: 0;
+  }
+
+  .callout {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-color: rgba(124,108,240,0.2);
+    background: linear-gradient(180deg, rgba(124,108,240,0.13), rgba(124,108,240,0.07));
+  }
+
+  .callout strong {
+    color: #c4bbff;
+  }
+
+  .plain {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+  }
+
+  .plain li {
+    position: relative;
+    padding: 10px 0 10px 20px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .plain li:last-child {
+    border-bottom: none;
+  }
+
+  .plain li::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 18px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: var(--accent);
   }
-  h1 {
-    font-size: 44px;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
-    font-weight: 700;
-    margin: 0 0 16px;
-  }
-  .lede {
-    font-size: 19px;
-    color: var(--text-muted);
-    line-height: 1.55;
-    margin: 0;
-    max-width: 640px;
-  }
-  /* Sections */
-  section { margin: 56px 0; }
-  h2 {
-    font-size: 26px;
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-    font-weight: 700;
-    margin: 0 0 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  h2 .num {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: var(--text);
-    color: var(--bg);
-    font-size: 14px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    letter-spacing: 0;
-  }
-  h3 {
-    font-size: 17px;
-    line-height: 1.4;
-    font-weight: 600;
-    margin: 28px 0 8px;
-    letter-spacing: -0.005em;
-  }
-  p { margin: 0 0 12px; color: var(--text-muted); }
-  p strong, li strong { color: var(--text); font-weight: 600; }
-  /* Steps grid */
-  .steps {
-    list-style: none;
-    padding: 0;
-    margin: 16px 0 0;
-    counter-reset: step;
-  }
-  .steps li {
-    position: relative;
-    padding: 18px 20px 18px 56px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-bottom: 10px;
-    box-shadow: var(--shadow);
-    counter-increment: step;
-  }
-  .steps li::before {
-    content: counter(step);
-    position: absolute;
-    left: 18px;
-    top: 18px;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--accent-soft);
-    color: var(--accent-strong);
-    font-size: 13px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .steps li strong {
-    display: block;
-    color: var(--text);
-    font-weight: 600;
-    margin-bottom: 2px;
-  }
-  .steps li span { color: var(--text-muted); font-size: 15px; }
-  /* Cards */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 16px;
-  }
-  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
-  .card {
-    padding: 18px 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-  }
-  .card h4 {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 0 6px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card h4 .icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    background: var(--surface-2);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-  }
-  .card p { font-size: 14px; margin: 0; line-height: 1.55; }
-  /* Code chip */
+
   code {
-    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 0.9em;
     padding: 2px 6px;
-    background: var(--surface-2);
+    border-radius: 6px;
     border: 1px solid var(--border);
-    border-radius: 5px;
+    background: rgba(255,255,255,0.05);
     color: var(--text);
   }
-  /* Callout */
-  .callout {
-    padding: 16px 20px;
-    background: var(--accent-soft);
-    border: 1px solid rgba(129, 140, 248, 0.22);
-    border-left: 3px solid var(--accent);
-    border-radius: 8px;
-    margin: 20px 0;
+
+  pre {
+    margin: 12px 0 0;
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: #0b0f17;
+    color: #dce7ff;
+    overflow: auto;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    line-height: 1.62;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
-  .callout p { color: var(--text); margin: 0; font-size: 14.5px; }
-  .callout strong { color: var(--accent-strong); }
-  /* Resource links bar */
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 28px;
+
+  .prompt-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
   }
-  .links a {
+
+  .prompt-card {
+    padding: 18px;
+  }
+
+  .prompt-card .meta {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    padding: 10px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
-  }
-  .links a:hover {
-    border-color: var(--accent);
-    background: var(--surface-2);
-    transform: translateY(-1px);
-  }
-  .links a svg { width: 16px; height: 16px; flex-shrink: 0; }
-  .links a .tag {
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-soft);
     font-size: 11px;
-    font-weight: 600;
-    color: var(--text-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-left: 4px;
-    padding-left: 9px;
-    border-left: 1px solid var(--border-strong);
-  }
-  /* Highlighted CTA card (used for the plugin step) */
-  .cta {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 18px 20px;
-    background: var(--accent-soft);
-    border: 1px solid rgba(129, 140, 248, 0.25);
-    border-radius: 10px;
-    margin: 14px 0 18px;
-  }
-  .cta strong { color: var(--accent-strong); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .cta a { color: var(--accent-strong); font-weight: 600; text-decoration: none; }
-  .cta a:hover { text-decoration: underline; }
-  /* Placeholder block (other agent fills in) */
-  .placeholder {
-    padding: 24px;
-    background: var(--surface);
-    border: 1.5px dashed var(--border-strong);
-    border-radius: 12px;
-    text-align: center;
-    color: var(--text-soft);
-    font-size: 14.5px;
-  }
-  .placeholder strong { color: var(--text-muted); display: block; margin-bottom: 4px; }
-  /* Lists */
-  ul.plain { list-style: none; padding: 0; margin: 12px 0 0; }
-  ul.plain li {
-    padding: 8px 0 8px 22px;
-    position: relative;
-    color: var(--text-muted);
-    font-size: 15px;
-    border-bottom: 1px solid var(--border);
-  }
-  ul.plain li:last-child { border-bottom: none; }
-  ul.plain li::before {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 16px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--border-strong);
-  }
-  /* Footer / disclaimer */
-  footer {
-    margin-top: 96px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-    font-size: 13px;
-    color: var(--text-soft);
-    line-height: 1.65;
-  }
-  footer h4 {
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-weight: 700;
     letter-spacing: 0.06em;
-    color: var(--text-muted);
-    margin: 0 0 10px;
+    text-transform: uppercase;
   }
-  footer p { font-size: 13px; color: var(--text-soft); margin: 0 0 10px; }
-  footer .legal {
-    margin-top: 24px;
+
+  .prompt-card p {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .gallery-card {
+    overflow: hidden;
+  }
+
+  .gallery-media {
+    aspect-ratio: 16 / 9;
+    border-bottom: 1px solid var(--border);
+    background:
+      linear-gradient(135deg, rgba(124,108,240,0.18), rgba(124,108,240,0.04)),
+      linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-soft);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .gallery-body {
+    padding: 14px 15px 16px;
+  }
+
+  .gallery-body p {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .gallery-note {
+    margin-top: 12px;
+    color: var(--text-soft);
+    font-size: 13px;
+  }
+
+  footer {
+    margin-top: 84px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+  }
+
+  footer h4 {
+    margin-top: 20px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-soft);
+  }
+
+  footer p {
+    font-size: 13px;
+  }
+
+  .legal {
+    margin-top: 22px;
     padding-top: 16px;
     border-top: 1px solid var(--border);
-    font-size: 12px;
     color: var(--text-soft);
+    font-size: 12px;
   }
-  footer a { color: var(--accent-strong); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 940px) {
+    .grid-3,
+    .gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .grid-2,
+    .prompt-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .wrap {
+      padding: 34px 18px 72px;
+    }
+
+    h2 {
+      font-size: 25px;
+    }
+
+    .step {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <!-- ───────── HERO ───────── -->
   <header class="hero">
-    <span class="eyebrow"><span class="dot"></span>User Guide</span>
-    <h1>HTML to UMG, in three steps.</h1>
+    <span class="eyebrow">User Guide</span>
+    <h1>Convert HTML into Unreal UMG with a cleaner workflow.</h1>
     <p class="lede">
-      Convert any HTML/CSS design into an Unreal Engine 5 UMG Widget Blueprint —
-      paste your markup, generate a package, and import it into your project with
-      the companion plugin.
+      This guide covers the current converter workflow, what it supports well,
+      where it still needs manual cleanup, and how to prompt AI tools so the
+      generated HTML is much more conversion-friendly from the start.
     </p>
-
-    <!--
-      RESOURCE LINKS — replace YOUR_*_HERE values with your actual URLs.
-      These appear as a chip-style bar directly under the lede.
-    -->
     <nav class="links" aria-label="Resources">
-      <a href="YOUR_FAB_LINK_HERE" target="_blank" rel="noopener">
+      <a href="https://www.fab.com/listings/f064f838-2e6c-4ca5-835d-283e71db81ef" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
           <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
@@ -349,13 +505,13 @@
         </svg>
         Get the plugin <span class="tag">Fab</span>
       </a>
-      <a href="YOUR_YOUTUBE_LINK_HERE" target="_blank" rel="noopener">
+      <a href="https://www.youtube.com/playlist?list=PLcUILIULIoECUjeZG7rbwjvRp_-fd6UUA" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
         </svg>
         Watch tutorial <span class="tag">YouTube</span>
       </a>
-      <a href="YOUR_DISCORD_LINK_HERE" target="_blank" rel="noopener">
+      <a href="https://discord.com/invite/qPCZnWPqrC" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
         </svg>
@@ -364,249 +520,261 @@
     </nav>
   </header>
 
-  <!-- ───────── OVERVIEW ───────── -->
   <section>
-    <h2>What you get</h2>
-    <p>
-      The Widget Generator is split into two parts: a <strong>web converter</strong>
-      that turns HTML into a JSON description plus baked textures, and an
-      <strong>Unreal Engine plugin</strong> that imports that package and creates
-      the Widget Blueprint inside your project.
+    <div class="announcement" aria-label="Important announcement">
+      <span class="announcement-label">Important Update</span>
+      <h2>Fab delivery is still showing older files right now.</h2>
+      <p>
+        Epic Games has not yet pushed my latest update to the Fab files, so the
+        currently downloadable package may still contain the older version.
+      </p>
+      <ul>
+        <li>
+          If you need the latest build before the Fab update goes live, please
+          reach out on <a href="https://discord.com/invite/qPCZnWPqrC" target="_blank" rel="noopener">Discord</a>.
+        </li>
+        <li>
+          This manual-open fallback applies across Unreal versions. If the
+          converter does not show up from the usual entry yet, open it from the
+          plugin's <code>Resources\WidgetGenerator</code> folder. Example path:
+          <code>C:\Program Files\Epic Games\UE_5.6\Engine\Plugins\Marketplace\MagicWid9a96f9ae5592V6\Resources\WidgetGenerator</code>.
+        </li>
+        <li>
+          The Batch Convert update is also waiting to be published. If you do
+          not want to wait for the Fab rollout, contact me on
+          <a href="https://discord.com/invite/qPCZnWPqrC" target="_blank" rel="noopener">Discord</a>
+          and I will help you get the latest version.
+        </li>
+      </ul>
+    </div>
+    <h2>What the workflow looks like</h2>
+    <p class="section-intro">
+      The pipeline has two parts: the browser-side converter builds JSON plus
+      textures, then the Unreal plugin imports that package and reconstructs the
+      widget hierarchy inside your project.
     </p>
-    <div class="grid">
+    <div class="grid-2">
       <div class="card">
-        <h4><span class="icon">🌐</span>Web Converter</h4>
-        <p>Runs entirely in your browser. Paste HTML, tweak a few toggles, get a JSON package with all textures.</p>
+        <h4>Web converter</h4>
+        <p>Paste or load HTML, choose a target resolution, bake textures when needed, and export a JSON package with all generated assets.</p>
       </div>
       <div class="card">
-        <h4><span class="icon">🎮</span>UE5 Plugin</h4>
-        <p>Imports the package and rebuilds the layout as a real Widget Blueprint with proper UMG hierarchy.</p>
+        <h4>UE plugin</h4>
+        <p>Import the JSON package, map fonts, create textures at the expected paths, and generate the final Widget Blueprint.</p>
       </div>
     </div>
   </section>
 
-  <!-- ───────── STEP 1: WEB CONVERTER ───────── -->
   <section>
-    <h2><span class="num">1</span>Convert your HTML</h2>
-    <p>Open the converter page in any modern browser (Chrome, Edge, or Firefox recommended).</p>
-
-    <ol class="steps">
-      <li>
-        <strong>Load your design</strong>
-        <span>
-          Paste HTML into the left panel, click <code>File</code> to open a local
-          <code>.html</code> file, or click <code>Example</code> to try a sample. If your
-          HTML references local images, the file picker preserves those references
-          automatically.
-        </span>
-      </li>
-      <li>
-        <strong>Pick a target resolution</strong>
-        <span>
-          Use the <code>Resolution</code> dropdown in the top bar — common UE viewport
-          sizes are pre-set (1080p, 720p, 1440p, 4K) plus a Custom option. The HTML is
-          rendered at this exact size and all UMG coordinates use it as the canvas.
-        </span>
-      </li>
-      <li>
-        <strong>Choose what to bake</strong>
-        <span>
-          Three toggles control how decorative effects are exported:
-          <code>Shadows</code> bakes <code>box-shadow</code> into textures,
-          <code>Gradients</code> rasterizes CSS gradients as PNGs, and
-          <code>Font Icons</code> turns icon-font glyphs and emoji into image
-          textures (recommended ON if your design uses FontAwesome, Material Icons,
-          or emoji — Unreal's default fonts won't have those glyphs).
-        </span>
-      </li>
-      <li>
-        <strong>Generate</strong>
-        <span>
-          Click <code>⚡ Generate Widget</code>. The right panel shows the UMG widget
-          text, and a <code>Textures &amp; Images</code> section lists every baked
-          asset. The Live Preview on the left lets you confirm what the converter
-          actually rendered.
-        </span>
-      </li>
-    </ol>
-
+    <h2>1. Convert your HTML</h2>
+    <div class="steps">
+      <article class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Load the source</h3>
+          <p>Paste HTML into the source area, open a local <code>.html</code> file, or load the built-in example. The preview reflects what the converter actually sees, so preview problems should be fixed in the HTML first.</p>
+        </div>
+      </article>
+      <article class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Choose the target resolution</h3>
+          <p>Use the resolution dropdown for the exact canvas size you want in Unreal. Widget coordinates and exported textures are measured against that resolution.</p>
+        </div>
+      </article>
+      <article class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Pick render options</h3>
+          <p><code>Shadows</code>, <code>Gradients</code>, <code>Font Icons</code>, and <code>Animations</code> control which visual systems are baked or exported. Leave them on unless you are deliberately simplifying the output.</p>
+        </div>
+      </article>
+      <article class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Generate and review</h3>
+          <p>Generate the widget, inspect the texture list, and verify the preview. Use the exported JSON package as the main handoff format for the Unreal plugin.</p>
+        </div>
+      </article>
+    </div>
     <div class="callout">
-      <p>
-        <strong>Tip —</strong> If a font, icon, or background image looks wrong in
-        the preview, fix it in the HTML first and regenerate. The preview is exactly
-        what the converter sees.
-      </p>
+      <p><strong>Best practice:</strong> If the preview is wrong, the Unreal output will usually be wrong too. Fix the HTML, CSS, asset path, or prompt first, then regenerate.</p>
     </div>
   </section>
 
-  <!-- ───────── STEP 2: EXPORT ───────── -->
   <section>
-    <h2><span class="num">2</span>Export the package</h2>
-    <p>You have three export options depending on how you want to import:</p>
-
-    <div class="grid">
+    <h2>2. Export and import</h2>
+    <div class="grid-2">
       <div class="card">
-        <h4><span class="icon">📦</span>JSON Package</h4>
-        <p>Single ZIP containing the JSON description plus every baked texture in their final folder structure. <strong>Recommended for the plugin.</strong></p>
+        <h4>Recommended export</h4>
+        <p>Use the JSON package export. It contains the widget description plus all baked textures and is the cleanest path into the plugin.</p>
       </div>
       <div class="card">
-        <h4><span class="icon">📋</span>Copy</h4>
-        <p>Copies the raw UMG widget text to your clipboard. Paste directly into Unreal Editor's Widget Blueprint graph (textures must already exist).</p>
-      </div>
-      <div class="card">
-        <h4><span class="icon">💾</span>Download</h4>
-        <p>Saves the UMG widget text as a <code>.txt</code> file — useful for review or sharing.</p>
-      </div>
-      <div class="card">
-        <h4><span class="icon">⬇</span>Textures ZIP</h4>
-        <p>Just the textures, no JSON. Useful if you only need to refresh image assets in an already-imported widget.</p>
+        <h4>Plugin import flow</h4>
+        <p>Open the plugin window in Unreal, choose the ZIP or JSON source, map fonts, select the destination asset path, then create the widget.</p>
       </div>
     </div>
+    <ul class="plain">
+      <li><strong>ZIP package:</strong> best default for full import.</li>
+      <li><strong>JSON only:</strong> useful when textures are already in the project.</li>
+      <li><strong>Font mapping:</strong> each detected HTML font family should be mapped to a real Unreal font asset.</li>
+      <li><strong>Re-import:</strong> safe for iteration as long as you keep the same asset paths.</li>
+    </ul>
+  </section>
 
-    <div class="callout">
-      <p>
-        <strong>Recommended flow —</strong> Use <code>📦 JSON Package</code>. The
-        plugin reads it directly and places every texture at the correct path
-        without manual setup.
-      </p>
+  <section>
+    <h2>What works well right now</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h4>Layout and panels</h4>
+        <p>Absolute layout, flex, grid, scrollable containers, nested panels, tab-style panel stacks, and toggleable panel sections are handled well when the DOM structure is explicit.</p>
+      </div>
+      <div class="card">
+        <h4>Visual styling</h4>
+        <p>Solid fills, gradients, rounded corners, borders, box shadows, background images, inline SVG, pseudo decorative layers, and simple clip-path shapes can be preserved or baked.</p>
+      </div>
+      <div class="card">
+        <h4>Widgets and motion</h4>
+        <p>Buttons, text, images, inputs, checkboxes, sliders, combo boxes, scroll boxes, progress bars, and details/summary structures all have direct export paths. CSS keyframe animation data is also exported.</p>
+      </div>
     </div>
   </section>
 
-  <!-- ───────── STEP 3: UE PLUGIN ───────── -->
   <section>
-    <h2><span class="num">3</span>Import into Unreal Engine</h2>
-    <p>
-      The companion <strong>Widget Creator Pops</strong> plugin reads the JSON
-      Package you exported in step 2, imports every texture into your project, and
-      generates a real <code>UWidgetBlueprint</code> — anchors, slots, brushes,
-      fonts, button states and all.
+    <h2>What still needs care</h2>
+    <ul class="plain">
+      <li><strong>Hover-specific CSS states:</strong> do not assume every <code>:hover</code> treatment becomes a perfect UMG hover state. Keep the base state strong on its own.</li>
+      <li><strong>Rich text inside one paragraph:</strong> heavily mixed span styling can flatten into simpler text output depending on the structure.</li>
+      <li><strong>Complex blend/mask/filter effects:</strong> features like <code>backdrop-filter</code>, <code>mask-image</code>, and heavy blend chains are risky.</li>
+      <li><strong>Heavy JS-driven UI generation:</strong> if core UI appears only after runtime DOM building, export reliability drops fast.</li>
+      <li><strong>Video:</strong> treat live video as unsupported for direct widget reconstruction.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Prompting AI tools</h2>
+    <p class="section-intro">
+      If you use Claude, ChatGPT, Gemini, or another model to generate UI HTML,
+      the prompt matters a lot. The goal is not just pretty HTML, but HTML that
+      converts into Unreal cleanly.
     </p>
 
-    <div class="cta">
-      <strong>Get the plugin</strong>
-      <span>Available on Fab — <a href="YOUR_FAB_LINK_HERE" target="_blank" rel="noopener">open the listing</a> and add it to your library, then install it to your engine version from Epic Games Launcher → Library → Fab.</span>
+    <h3>Example prompt - detailed</h3>
+    <div class="prompt-card">
+      <span class="meta">Example Prompt / Detailed</span>
+      <p>Use this when you want the model to generate a full game screen from scratch with strong visual direction and Unreal-friendly structure.</p>
+      <pre>Create a single self-contained 1920x1080 HTML game UI screen for Unreal Engine 5 UMG conversion.
+
+The theme is a futuristic sci-fi loadout screen with a left navigation rail, a center character equipment panel, a right stats panel, and a bottom action bar.
+
+Use valid standalone HTML with embedded CSS and optional embedded JavaScript.
+Return only the final HTML code.
+
+The UI should feel polished, game-ready, and visually strong, but also conversion-friendly:
+- use real buttons for interactive controls
+- keep important text and icons as real DOM elements
+- mark every real panel section with data-ue-panel
+- use data-ue-toggle on any control that switches or opens a panel
+- if a panel starts open, add data-ue-panel-default="open"
+- if a panel starts closed but should still export, add data-ue-panel-display
+- keep panel content inside the panel DOM container
+- use clean ids and class names
+- avoid fragile web-only tricks
+
+Include:
+- a main equipment panel
+- a stats/details panel
+- a tabbed sub-panel for weapons / armor / gadgets
+- a scrollable inventory list
+- a few clear action buttons
+- keyboard hints at the bottom
+- subtle CSS hover states
+- light CSS animation if useful
+
+Keep it visually impressive but structurally simple enough to convert well.</pre>
     </div>
 
-    <h3>Install &amp; enable</h3>
-    <ol class="steps">
-      <li>
-        <strong>Add to your engine</strong>
-        <span>
-          From Fab, install the plugin into <strong>Unreal Engine 5.1+</strong>. It
-          becomes available to every project that uses that engine version.
-          <em>Editor-only, Windows&nbsp;64-bit.</em>
-        </span>
-      </li>
-      <li>
-        <strong>Enable it in your project</strong>
-        <span>
-          Open your project and go to <code>Edit → Plugins</code>. Search for
-          <code>Widget Creator Pops</code>, tick the <strong>Enabled</strong>
-          checkbox, then restart the editor when prompted.
-        </span>
-      </li>
-      <li>
-        <strong>Find the toolbar button</strong>
-        <span>
-          After restart, look at the Level Editor toolbar — a new
-          <code>Widget Generator</code> button appears next to the Play controls.
-          Click it to open the import window.
-        </span>
-      </li>
-    </ol>
-
-    <h3>Run the import</h3>
-    <ol class="steps">
-      <li>
-        <strong>Pick your source file</strong>
-        <span>
-          The window has two tabs:
-          <code>📦 ZIP Package</code> (recommended — bundles JSON + every texture)
-          and <code>� JSON only</code> (use this if your textures are already in
-          the project). Click <code>Browse…</code> and select the file you exported
-          in step 2.
-        </span>
-      </li>
-      <li>
-        <strong>Map your fonts</strong>
-        <span>
-          The plugin scans the JSON for every <code>fontFamily</code> reference and
-          shows a font-mapping dialog. For each family, pick a <code>UFont</code>
-          asset from your project (or accept the default
-          <code>/Engine/EngineFonts/Roboto</code> fallback). Mapping once per font
-          family covers every text widget that uses it.
-        </span>
-      </li>
-      <li>
-        <strong>Choose the destination</strong>
-        <span>
-          Set the <strong>Asset Name</strong> (e.g. <code>WBP_MainMenu</code>) and
-          the <strong>Package Path</strong> (defaults to
-          <code>/Game/AutoCreated</code>). Textures land at the
-          <code>suggestedPath</code> values baked into the JSON, typically
-          <code>/Game/UI/Textures/…</code>.
-        </span>
-      </li>
-      <li>
-        <strong>Click Create</strong>
-        <span>
-          The plugin extracts the ZIP in-process, imports each PNG with
-          UI-optimized settings (<code>LODGroup=UI</code>, no mipmaps, sRGB on),
-          waits for texture compilation, then constructs the Widget Blueprint. A
-          dialog confirms when it finishes and offers to open the new asset.
-        </span>
-      </li>
-    </ol>
-
-    <div class="callout">
-      <p>
-        <strong>Re-importing —</strong> Running the importer again over the same
-        asset path is safe. Existing textures are reused (not destroyed), so any
-        Widget Blueprints already referencing them keep working without breakage.
-      </p>
+    <h3>Example prompt - short</h3>
+    <div class="prompt-card">
+      <span class="meta">Example Prompt / Short</span>
+      <pre>Create a self-contained 1920x1080 HTML game UI for Unreal Engine 5 UMG conversion. Make it a sci-fi inventory/loadout screen with clear panels, real buttons, scrollable lists, keyboard hints, and clean CSS hover states. Use data-ue-panel for every major panel and data-ue-toggle for any control that switches panels. Return only valid final HTML.</pre>
     </div>
 
-    <h3>Verify the generated widget</h3>
-    <ul class="plain">
-      <li><strong>Open your new <code>UWidgetBlueprint</code> —</strong> the Designer tab shows the rebuilt UMG hierarchy: a root <code>CanvasPanel</code> (or a <code>ScrollBox</code> for tall pages) with every widget placed at its measured position.</li>
-      <li><strong>Check the textures —</strong> in the Content Browser, navigate to <code>/Game/UI/Textures/</code> to confirm imported PNGs. Each is set to <code>TC_Default</code>, <code>sRGB</code>, <code>NoMipmaps</code>, <code>NeverStream</code>.</li>
-      <li><strong>Resize handle —</strong> page backgrounds and edge-touching elements use stretch anchors, so the layout adapts when you change viewport resolution.</li>
-      <li><strong>Need to tweak?</strong> The blueprint is yours — rename widgets, hook up button <code>OnClicked</code> events, bind text values, replace placeholder fonts. The plugin doesn't lock anything.</li>
-    </ul>
+    <h3>Rule prompt - detailed</h3>
+    <div class="prompt-card">
+      <span class="meta">Rule Prompt / Detailed</span>
+      <pre>Create a single self-contained HTML game UI for Unreal Engine 5 UMG conversion at 1920x1080.
+
+Return only valid final HTML with embedded CSS and optional embedded JavaScript.
+
+Rules:
+- use clear ids and class names
+- give the body or main root a meaningful id or class
+- mark every real panel/screen/popup/tab/inventory/settings section with data-ue-panel
+- if a panel starts open, add data-ue-panel-default="open"
+- if a panel starts closed but must still export, add data-ue-panel-display="block", "flex", or "grid"
+- any control that opens or closes a panel must include data-ue-toggle
+- keep important exportable UI in the DOM at initial render
+- keep panel children as real DOM children of the panel container
+- prefer native elements such as button, input, select, textarea, details/summary
+- if a non-button element is clickable, add role="button", tabindex, data-action, or onclick
+- do not rely on cursor:pointer alone
+- for switchable sections or tabs, keep each major state as a real panel in the DOM
+- use non-destructive state changes such as class toggles, aria-hidden changes, or panel root display changes
+- do not create important exportable content only after a click
+- keep z-index logical and keep clickable elements above decorative layers
+- keep button captions simple, preferably in one label span
+- do not place essential labels, icons, counts, or values only in pseudo-elements
+- use overflow-y:auto or overflow-y:scroll for scrollable areas
+- prefer CSS hover states and CSS @keyframes animations
+- avoid fragile CSS such as backdrop-filter, mask-image, heavy mix-blend-mode, complex 3D transforms, and overly experimental tricks
+- avoid destructive DOM operations such as element.remove() or replacing major UI sections after load
+- prioritize stable, explicit, conversion-friendly HTML over clever web patterns</pre>
+    </div>
+
+    <h3>Rule prompt - short</h3>
+    <div class="prompt-card">
+      <span class="meta">Rule Prompt / Short</span>
+      <pre>Create a self-contained 1920x1080 HTML game UI optimized for Unreal Engine 5 UMG conversion. Use clear ids, real buttons, native controls where possible, explicit data-ue-panel and data-ue-toggle attributes, simple button labels, real DOM content for important visuals, and conversion-friendly CSS. Keep all major UI in the DOM at initial render and avoid fragile web-only effects.</pre>
+    </div>
   </section>
 
-  <!-- ───────── TIPS / WHAT WORKS ───────── -->
   <section>
-    <h2>What works well</h2>
-    <ul class="plain">
-      <li><strong>Layouts —</strong> CSS positioning (absolute, relative, flex, grid) is flattened to a UMG Canvas Panel with absolute offsets.</li>
-      <li><strong>Text —</strong> Fonts, weights, colors, alignment, letter-spacing, line-height, and text-shadow all transfer.</li>
-      <li><strong>Backgrounds —</strong> Solid colors, linear/radial/conic gradients, and <code>url(...)</code> images become textures.</li>
-      <li><strong>Borders &amp; corners —</strong> Rounded corners use UE's RoundedBox; complex frame borders bake as 9-slice textures.</li>
-      <li><strong>Icons &amp; emoji —</strong> FontAwesome / Material / Lucide / Heroicons / Phosphor / Boxicons all detected; standalone decorative glyphs (★ ⚔ ☠ ✦) bake as images.</li>
-      <li><strong>Inline SVG —</strong> Rasterized to PNG textures with all CSS styling applied.</li>
-      <li><strong>Inputs &amp; controls —</strong> <code>&lt;input&gt;</code> → EditableTextBox, <code>&lt;select&gt;</code> → ComboBoxString, <code>&lt;button&gt;</code> → Button widget, scrollable areas → ScrollBox.</li>
-    </ul>
+    <h2>Gallery</h2>
+    <p class="section-intro">
+      Use this section to show successful conversions, before/after comparisons,
+      or screenshots of imported widgets in Unreal. Replace the placeholders
+      below with your own images.
+    </p>
+    <div class="gallery">
+      <article class="gallery-card">
+        <div class="gallery-media">Screenshot Slot 01</div>
+        <div class="gallery-body">
+          <h4>Main menu conversion</h4>
+          <p>Replace this block with an <code>&lt;img&gt;</code> tag or background image when you add your screenshot.</p>
+        </div>
+      </article>
+      <article class="gallery-card">
+        <div class="gallery-media">Screenshot Slot 02</div>
+        <div class="gallery-body">
+          <h4>Inventory / panel system</h4>
+          <p>Good place for a panel-heavy UI example, especially one with toggles, tabs, or scrollable sections.</p>
+        </div>
+      </article>
+      <article class="gallery-card">
+        <div class="gallery-media">Screenshot Slot 03</div>
+        <div class="gallery-body">
+          <h4>Imported widget in Unreal</h4>
+          <p>Use this slot for a Designer screenshot, Blueprint result, or side-by-side preview.</p>
+        </div>
+      </article>
+    </div>
+    <p class="gallery-note">Tip: if you want real image slots immediately, replace each <code>.gallery-media</code> block with an <code>&lt;img src="..." alt="..."&gt;</code> element and add your file paths.</p>
   </section>
 
-  <!-- ───────── KNOWN LIMITS ───────── -->
-  <section>
-    <h2>What doesn't transfer</h2>
-    <ul class="plain">
-      <li><strong>Animations —</strong> CSS <code>transition</code> and <code>@keyframes</code> are not exported.</li>
-      <li><strong>Rich text formatting —</strong> Mixed bold/italic spans inside one paragraph collapse into a single TextBlock.</li>
-      <li><strong>Video / canvas —</strong> <code>&lt;video&gt;</code> and <code>&lt;canvas&gt;</code> are not supported.</li>
-      <li><strong>Interactive states —</strong> CSS <code>:hover</code> / <code>:active</code> styles aren't captured; static appearance only.</li>
-      <li><strong>Inset shadows —</strong> CSS <code>inset</code> shadows have no UMG equivalent and are dropped.</li>
-    </ul>
-  </section>
-
-  <!-- ───────── FOOTER / DISCLAIMERS ───────── -->
   <footer>
-    <h4>Stay in touch</h4>
-    <!-- Same URLs as the hero links bar — keep both blocks in sync when you fill them in. -->
     <nav class="links" aria-label="Resources">
-      <a href="YOUR_FAB_LINK_HERE" target="_blank" rel="noopener">
+      <a href="https://www.fab.com/listings/f064f838-2e6c-4ca5-835d-283e71db81ef" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
           <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
@@ -614,13 +782,13 @@
         </svg>
         Get the plugin <span class="tag">Fab</span>
       </a>
-      <a href="YOUR_YOUTUBE_LINK_HERE" target="_blank" rel="noopener">
+      <a href="https://www.youtube.com/playlist?list=PLcUILIULIoECUjeZG7rbwjvRp_-fd6UUA" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
         </svg>
         Watch tutorial <span class="tag">YouTube</span>
       </a>
-      <a href="YOUR_DISCORD_LINK_HERE" target="_blank" rel="noopener">
+      <a href="https://discord.com/invite/qPCZnWPqrC" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
         </svg>
@@ -628,50 +796,20 @@
       </a>
     </nav>
 
-    <h4 style="margin-top: 32px;">Privacy</h4>
-    <p>
-      The web converter runs entirely in your browser. Your HTML, assets, and
-      generated output never leave your machine — there is no upload, no analytics,
-      and no server-side processing.
-    </p>
+    <h4>Privacy</h4>
+    <p>The web converter runs locally in the browser. Your HTML, textures, and generated package stay on your machine unless you choose to share them.</p>
 
-    <h4>Browser rendering note</h4>
-    <p>
-      The converter relies on your browser's layout engine to measure positions and
-      rasterize gradients/shadows/SVG. Output may differ very slightly between
-      browsers (mostly in sub-pixel font rendering). For the most consistent results
-      use the same browser version across your team.
-    </p>
+    <h4>Rendering note</h4>
+    <p>The converter measures layout through the browser engine, so small rendering differences can still appear across browsers or font environments. For team consistency, use the same browser version when possible.</p>
 
-    <h4>Trademark &amp; affiliation</h4>
-    <p>
-      Unreal Engine, Unreal Engine 5, UE5, UMG, and their respective logos are
-      trademarks or registered trademarks of <strong>Epic Games, Inc.</strong> in the
-      United States and elsewhere. This product is an independent tool and is
-      <strong>not affiliated with, endorsed by, or sponsored by Epic Games</strong>.
-    </p>
-
-    <h4>Third-party content</h4>
-    <p>
-      Any HTML, CSS, font, icon, or image asset you convert with this tool remains
-      subject to its own license. You are responsible for ensuring you have the
-      rights to use and redistribute those assets in your Unreal Engine project.
-      Icon-font names referenced by the converter (FontAwesome, Material Icons,
-      Lucide, Phosphor, Heroicons, Boxicons, Bootstrap Icons, etc.) are trademarks
-      of their respective owners and are listed only for asset-detection purposes.
-    </p>
+    <h4>Trademark notice</h4>
+    <p>Unreal Engine, Unreal Engine 5, UE5, and UMG are trademarks or registered trademarks of Epic Games, Inc. This tool is independent and is not affiliated with or endorsed by Epic Games.</p>
 
     <h4>No warranty</h4>
-    <p>
-      This software is provided "as is" without warranty of any kind. Always review
-      generated widgets before shipping them in production.
-    </p>
+    <p>Generated widgets should always be reviewed before shipping. Complex web layouts may still require cleanup or manual polishing inside Unreal.</p>
 
-    <div class="legal">
-      © Widget Generator. All other trademarks are the property of their respective owners.
-    </div>
+    <div class="legal">Copyright Widget Generator. All other trademarks remain the property of their respective owners.</div>
   </footer>
-
 </div>
 </body>
 </html>
