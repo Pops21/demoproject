@@ -51,60 +51,6 @@
     padding: 56px 28px 96px;
   }
 
-  .announcement {
-    margin-bottom: 28px;
-    padding: 18px 20px;
-    border: 1px solid rgba(245, 158, 11, 0.35);
-    border-radius: 18px;
-    background:
-      linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(245, 158, 11, 0.04)),
-      var(--surface);
-    box-shadow: var(--shadow);
-  }
-
-  .announcement-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(245, 158, 11, 0.12);
-    color: #fbbf24;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .announcement h2 {
-    margin-bottom: 12px;
-    font-size: 22px;
-    gap: 0;
-  }
-
-  .announcement h2 .num {
-    display: none;
-  }
-
-  .announcement p {
-    margin-bottom: 12px;
-  }
-
-  .announcement ul {
-    margin: 0;
-    padding-left: 20px;
-    color: var(--text-muted);
-  }
-
-  .announcement li + li {
-    margin-top: 10px;
-  }
-
-  .announcement code {
-    word-break: break-all;
-  }
-
   .hero {
     padding: 28px 0 40px;
     margin-bottom: 34px;
@@ -521,33 +467,6 @@
   </header>
 
   <section>
-    <div class="announcement" aria-label="Important announcement">
-      <span class="announcement-label">Important Update</span>
-      <h2>IMPORTANT NOTICE (Temporary Package Issue)</h2>
-      <p>
-        Due to an automated packaging glitch on the Fab deployment server, the
-        latest plugin build is temporarily missing the <code>Extras</code> and
-        <code>Config</code> folders. This causes an error when clicking the
-        <strong>Open Offline Converter</strong> button.
-      </p>
-      <p>
-        A permanent hotfix update has already been submitted to Epic Games and
-        will be processed and live as soon as their review is complete.
-      </p>
-      <p>
-        <strong>How to get the converter right now:</strong> You can get the
-        converter HTML file and the quick manual patch from our Discord server
-        or by sending an email. We apologize for the inconvenience.
-      </p>
-      <p>
-        <strong>Discord Support &amp; Patch:</strong>
-        <a href="https://discord.com/invite/qPCZnWPqrC" target="_blank" rel="noopener">https://discord.com/invite/qPCZnWPqrC</a>
-      </p>
-      <p>
-        <strong>Mail:</strong>
-        <a href="mailto:sameturuc2@gmail.com">sameturuc2@gmail.com</a>
-      </p>
-    </div>
     <h2>What the workflow looks like</h2>
     <p class="section-intro">
       The pipeline has two parts: the browser-side converter builds JSON plus
